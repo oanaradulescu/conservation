@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<!--  what is this ?? -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>json to csv converter</title>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+	</head>
+	<body>
+
+
+		<script>
+
+			d3.json("okavango 2015 species sightings.json",
+
+					function(error, data) {
+
+						// json file contents have been transformed into
+						// an array of JSON objects -- NOT REALLY !!
+						// this would have happened had i loaded a csv file
+
+						console.log(data.results);
+
+						// data.results is a json object
+						// the attribute value pairs need to be transformed
+						// into an array of simple json objects (or just js objects)
+
+						var sightings = [];
+
+						for (var attr in data.results ) {
+							var sighting = {};
+							sighting.species = attr;
+							sighting.num_sightings = data.results[attr];
+							sightings.push(sighting);
+						}
+
+						d3.select("body")
+							.selectAll("p")
+							.data(sightings)
+							.enter()
+							.append("p")
+							.text(function(d) {
+								return d.species;
+							});
+
+					}
+				);
+
+
+		</script>
+
+
+	</body>
+</html>
+
